@@ -32,3 +32,29 @@ module.exports.getById = async function(req,res){
         })
     }
 }
+module.exports.addCar = async function(req,res){
+    try{
+        const car = new Car({
+            name: req.body.name,
+            description: req.body.description,
+            cost: req.body.cost
+        })
+        await car.save()
+        res.status(201).json(car)
+    }catch (e){
+        res.status(500).json({
+            message: "cannot add car"
+        })
+        console.log(e)
+    }
+}
+module.exports.deleteCarById = async function(req,res){
+    try{
+        Car.deleteOne({id: req.body.id})
+    }catch (e){
+        res.status(404).json({
+            message: "car not found"
+        })
+        console.log(e)
+    }
+}
